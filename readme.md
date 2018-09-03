@@ -1,10 +1,25 @@
 # Order application
 
-...
+The application is an order form. In order to make an order, the user must:
+
+1. Specify his name and phone number
+2. Choose a tariff
+3. Choose the first day (from the days possible for the tariff) and an address
+
+When the order is made, all the client and the order data is stored in the database.
+
+All the orders with the same phone number are associated with the same client.
+There mustn't be multiple clients with the same phone number in the database.
+
+The tariffs are added to the database during the installation.
+Each tariff has a name, a price and days.
+
+The application is made on top of [Laravel](http://laravel.com), [Vue](http://vuejs.org) and [Bootstrap](http://getbootstrap.com).
+All the client-server data transmissions is implemented with AJAX without page reloading.
 
 ## Assumptions
 
-...
+«Days» are considered as the days of week (Sunday, Monday, etc.).
 
 ## How to install
 
