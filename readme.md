@@ -3,8 +3,8 @@
 The application is an order form. In order to make an order, the user must:
 
 1. Specify his name and phone number
-2. Choose a tariff
-3. Choose the first day (from the days possible for the tariff) and an address
+2. Choose a tariff and an address
+3. Choose a start day (from the days possible for the tariff)
 
 When the order is made, all the client and the order data is stored in the database.
 
@@ -39,6 +39,7 @@ Installation:
     composer install # Add --no-dev to skip the dependencies not required on production
     php artisan key:generate
     php artisan migrate
+    php artisan db:seed
     ```
 
 To start the application in the development mode, simply execute `php artisan serve` in a console and open http://localhost:8000 in a browser.
