@@ -12,7 +12,7 @@ All the orders with the same phone number are associated with the same client.
 There mustn't be multiple clients with the same phone number in the database.
 
 The tariffs are added to the database during the installation.
-Each tariff has a name, a price and days.
+Each tariff has a name, a price and possible days.
 
 The application is made on top of [Laravel](http://laravel.com), [Vue](http://vuejs.org) and [Bootstrap](http://getbootstrap.com).
 All the client-server data transmissions is implemented with AJAX without page reloading.
@@ -26,17 +26,19 @@ All the client-server data transmissions is implemented with AJAX without page r
 Requirements:
 
 * PHP ≥ 7.1.3
-* MySQL ≥ 5.5; PostrgeSQL should suit too but I haven't tested 
+* MySQL ≥ 5.5; PostrgeSQL may suit too but I haven't tested 
 * [Composer](https://getcomposer.org) (only during installation)
 
 Installation:
 
 1. Download this source code.
-2. Copy the configuration file from `.env.example` to `.env`, open `.env` in an editor and set the options up.
-3. Go the the code directory in a terminal and execute:
+2. Create an empty database with the `utf8mb4` encoding.
+3. Copy the configuration file from `.env.example` to `.env`, open `.env` in an editor and set the options up.
+4. Go the the code directory in a terminal and execute:
     ```bash
     composer install # Add --no-dev to skip the dependencies not required on production
     php artisan key:generate
+    php artisan migrate
     ```
 
 To start the application in the development mode, simply execute `php artisan serve` in a console and open http://localhost:8000 in a browser.
