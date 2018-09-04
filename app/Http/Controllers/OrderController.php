@@ -43,13 +43,13 @@ class OrderController extends Controller
         /** @var Tariff $tariff */
         $tariff = Tariff::find($request->input('tariff'));
 
-        // Check whether the start day available in the tariff
+        // Check whether the start day available for the tariff
         if (array_search($request->input('start_day'), $tariff->days) === false) {
             abort(422, 'The chosen start day is not available for the chosen tariff');
         }
 
         // Save the ordre data to the database
-        $client = Client::findOrCreate($request->input('name'), $request->input('phone'));
+        $client = Client::updateOrCreate($request->input('name'), $request->input('phone'));
         $order = new Order();
         $order->client()->associate($client);
         $order->tariff()->associate($tariff);

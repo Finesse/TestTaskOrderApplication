@@ -2,8 +2,8 @@
 
 The application is an order form. In order to make an order, the user must:
 
-1. Specify his name and phone number
-2. Choose a tariff and an address
+1. Specify his/her name, phone number and address
+2. Choose a tariff
 3. Choose a start day (from the days possible for the tariff)
 
 When the order is made, all the client and the order data is stored in the database.
@@ -86,4 +86,4 @@ After you made a change in the source code, you need to compile it:
 1. Install [Node.js](http://nodejs.org/)
 2. Open the project root directory in a console and execute `npm install` (required only once)
 3. Execute `npm run watch`
-4. Before commiting execute `npm run prod` to have production-ready assets in the repository
+4. Before commiting the code, execute `npm run prod` to have production-ready assets in the repository

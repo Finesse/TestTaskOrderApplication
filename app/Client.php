@@ -66,21 +66,23 @@ class Client extends Model
     }
 
     /**
-     * Gets or creates a client for the given credentials
+     * Finds a client by phone and updates his/her credentials. If a client with the given phone doesn't exist, creates
+     * him/her. Saves the changes to the database.
      *
      * @param string $name Client name
      * @param string $phone Client phone in any form
-     * @return Client
+     * @return Client The created/updated client
      */
-    public static function findOrCreate(string $name, string $phone): self
+    public static function updateOrCreate(string $name, string $phone): self
     {
-        if ($client = static::findByPhone($phone)) {
-            return $client;
+        $client = static::findByPhone($phone);
+
+        if (!$client) {
+            $client = new static();
+            $client->phone = $phone;
         }
 
-        $client = new static();
         $client->name = $name;
-        $client->phone = $phone;
         $client->save();
 
         return $client;
