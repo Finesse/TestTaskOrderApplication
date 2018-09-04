@@ -8,31 +8,32 @@
         <div class="col-lg-4 col-sm-6 form-group">
           <label for="name">Your name</label>
           <input
-              type="text"
-              v-model="values.name"
-              class="form-control"
-              id="name"
-              required
-              :disabled="disabled"
+            type="text"
+            v-model="values.name"
+            class="form-control"
+            id="name"
+            required
+            :disabled="disabled"
           />
         </div>
         <div class="col-lg-4 col-sm-6 form-group">
           <label for="phone">Phone number</label>
-          <input
-              type="tel"
-              v-model="values.phone"
-              name="phone"
-              class="form-control"
-              id="phone"
-              required
-              :disabled="disabled"
+          <the-mask
+            :mask="['+# (###) ###-##-##', '+## (###) ###-##-##', '+### (###) ###-##-##']"
+            type="tel"
+            v-model="values.phone"
+            name="phone"
+            class="form-control"
+            id="phone"
+            required
+            :disabled="disabled"
           />
         </div>
         <div class="col-lg-4 col-sm-6 form-group">
           <label for="tariff">Tariff</label>
           <select v-model="values.tariff" class="form-control" id="tariff" :disabled="disabled">
             <option v-for="tariff in tariffs" :value="tariff.id">
-              {{ tariff.name }} – {{ tariff.price }}₽
+              {{ tariff.name }}
             </option>
           </select>
         </div>
@@ -47,12 +48,12 @@
         <div class="col-lg-8 form-group">
           <label for="client_address">Delivery address</label>
           <textarea
-              v-model="values.address"
-              class="form-control"
-              id="client_address"
-              rows="2"
-              required
-              :disabled="disabled"
+            v-model="values.address"
+            class="form-control"
+            id="client_address"
+            rows="2"
+            required
+            :disabled="disabled"
           ></textarea>
         </div>
       </div>
@@ -69,7 +70,10 @@
 </template>
 
 <script>
+  import {TheMask} from 'vue-the-mask'
+
   export default {
+    components: {TheMask},
     props: {
       tariffs: {
         type: Array,
