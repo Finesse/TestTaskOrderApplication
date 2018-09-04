@@ -17,12 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $tariffs = Tariff::query()->orderBy('price')->get();
-
         return view('form', [
-            'tariffs' => $tariffs->map(function (Tariff $tariff) {
-                return $tariff->only(['id', 'name', 'price', 'days']);
-            })
+            'tariffs' => Tariff::orderBy('price')->get()
         ]);
     }
 

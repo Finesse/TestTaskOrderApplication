@@ -14,8 +14,15 @@
         </div>
 
         <script>
+            @php
+                // Extracting only the required tariffs properties
+                $tariffsData = $tariffs->map(function (\App\Tariff $tariff) {
+                    return $tariff->only(['id', 'name', 'price', 'days']);
+                });
+            @endphp
+
             var orderFormData = @json([
-                'tariffs' => $tariffs,
+                'tariffs' => $tariffsData,
                 'submitURL' => action('OrderController@order')
             ]);
         </script>
