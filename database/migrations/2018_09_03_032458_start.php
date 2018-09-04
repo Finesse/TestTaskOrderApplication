@@ -27,7 +27,7 @@ class Start extends Migration
             $table->increments('id');
             $table->unsignedInteger('client_id')->index('client_id');
             $table->unsignedInteger('tariff_id')->index('tariff_id');
-            $table->unsignedTinyInteger('first_day')->comment('Day of week as in ISO-8601');
+            $table->unsignedTinyInteger('start_day')->comment('Day of week as in ISO-8601');
             $table->text('address');
             $table->timestamps();
         });

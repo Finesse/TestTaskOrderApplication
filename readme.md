@@ -1,6 +1,6 @@
 # Order application
 
-The application is an order form. In order to make an order, the user must:
+The task was to make an application with an order form. To make an order, the user must:
 
 1. Specify his/her name, phone number and address
 2. Choose a tariff

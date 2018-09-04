@@ -33,7 +33,7 @@ class Client extends Model
      */
     public function setPhoneAttribute(string $value)
     {
-        $this->arrtibutes['phone'] = static::normalizePhone($value);
+        $this->attributes['phone'] = static::normalizePhone($value);
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * Order model
  *
  * @property int $id Identifier
- * @property int $first_day The first order day (a week day number as in ISO-8601; 1 - Monday ... 7 - Sunday)
+ * @property int $start_day The first order day (a week day number as in ISO-8601; 1 - Monday ... 7 - Sunday)
  * @property string $address Order address
  * @property Carbon|null $created_at Create date and time
  * @property Carbon|null $updated_at Last update date and time
@@ -23,7 +23,7 @@ class Order extends Model
      * {@inheritDoc}
      */
     protected $casts = [
-        'first_day' => 'integer',
+        'start_day' => 'integer',
         'address' => 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
@@ -37,15 +37,15 @@ class Order extends Model
     ];
 
     /**
-     * Setter for the `first_day` attribute
+     * Setter for the `start_day` attribute
      */
-    public function setFirstDayAttribute(int $value)
+    public function setStartDayAttribute(int $value)
     {
         if ($value < 1 || $value > 7) {
-            throw new \InvalidArgumentException('The `first_day` value is not a number from 1 to 7');
+            throw new \InvalidArgumentException('The `start_day` value is not a number from 1 to 7');
         }
 
-        $this->attributes['first_day'] = $value;
+        $this->attributes['start_day'] = $value;
     }
 
     /**

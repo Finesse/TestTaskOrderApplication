@@ -49,7 +49,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->client()->associate($client);
         $order->tariff()->associate($tariff);
-        $order->first_day = $request->input('first_day');
+        $order->start_day = $request->input('start_day');
         $order->address = $request->input('address');
         $order->save();
 
