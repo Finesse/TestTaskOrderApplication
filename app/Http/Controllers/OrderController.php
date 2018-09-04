@@ -41,7 +41,7 @@ class OrderController extends Controller
 
         // Check whether the start day available for the tariff
         if (array_search($request->input('start_day'), $tariff->days) === false) {
-            abort(422, 'The chosen start day is not available for the chosen tariff');
+            abort(422, 'The selected start day is not available for the selected tariff');
         }
 
         // Save the ordre data to the database

@@ -7,11 +7,26 @@
       <div class="row">
         <div class="col-lg-4 col-sm-6 form-group">
           <label for="name">Your name</label>
-          <input type="text" v-model="values.name" class="form-control" id="name" required :disabled="disabled">
+          <input
+              type="text"
+              v-model="values.name"
+              class="form-control"
+              id="name"
+              required
+              :disabled="disabled"
+          />
         </div>
         <div class="col-lg-4 col-sm-6 form-group">
           <label for="phone">Phone number</label>
-          <input type="tel" v-model="values.phone" name="phone" class="form-control" id="phone" required :disabled="disabled">
+          <input
+              type="tel"
+              v-model="values.phone"
+              name="phone"
+              class="form-control"
+              id="phone"
+              required
+              :disabled="disabled"
+          />
         </div>
         <div class="col-lg-4 col-sm-6 form-group">
           <label for="tariff">Tariff</label>
@@ -31,7 +46,14 @@
         </div>
         <div class="col-lg-8 form-group">
           <label for="client_address">Delivery address</label>
-          <textarea v-model="values.address" class="form-control" id="client_address" rows="2" required :disabled="disabled"></textarea>
+          <textarea
+              v-model="values.address"
+              class="form-control"
+              id="client_address"
+              rows="2"
+              required
+              :disabled="disabled"
+          ></textarea>
         </div>
       </div>
       <div>
@@ -77,7 +99,7 @@
       }
     },
     watch: {
-      // Makes the selected start day be one of the tariff days
+      // Makes the selected start day always be one of the tariff days
       'values.tariff': function () {
         const tariff = this.tariff;
         const days = tariff && tariff.days || [];

@@ -1,16 +1,18 @@
 import Vue from 'vue';
-import App from './components/App';
+import OrderForm from './components/OrderForm';
 import {post} from 'axios';
+import swal from 'sweetalert';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// The application start point
 new Vue({
   el: '#app',
   data: {
     ...window.orderFormData,
     isSubmitting: false
   },
-  components: {App},
-  template: '<app :tariffs="tariffs" :disabled="isSubmitting" @submit="handleSubmit"/>',
+  components: {OrderForm},
+  template: '<order-form :tariffs="tariffs" :disabled="isSubmitting" @submit="handleSubmit"/>',
   methods: {
     // Sends the order data when the form is submitted
     handleSubmit: async function (values) {
@@ -21,10 +23,51 @@ new Vue({
       this.isSubmitting = true;
 
       try {
-        await post(this.submitURL, values);
+        const response = await post(this.submitURL, values);
+        await swal(
+          'Success!',
+          `Your order has been submitted. The order number is ${response.data.orderId}.`,
+          'success'
+        );
+      } catch (error) {
+        await swal(
+          'Error',
+          getResponseErrorText(error.response),
+          'error'
+        );
       } finally {
         this.isSubmitting = false;
       }
     }
   }
 });
+
+/**
+ * Gets an error message for the user from an Axios error
+ *
+ * @param {{}} response Axios response
+ * @return {string}
+ */
+function getResponseErrorText(response) {
+  const {data, status, statusText} = response;
+
+  // Laravel CSRF protection response
+  if (status === 419) {
+    return 'The session has expired. Please reload the page.';
+  }
+
+  // Laravel validation error
+  if (status === 422 && data.errors && typeof data.errors === 'object') {
+    return Object.values(data.errors)
+      .map(errors => errors.join(' '))
+      .join(" \n");
+  }
+
+  // Other Laravel errors
+  if (data.message && typeof data.message === 'string') {
+    return data.message;
+  }
+
+  // Other errors
+  return `Unknown error: ${status} — ${statusText}`;
+}
