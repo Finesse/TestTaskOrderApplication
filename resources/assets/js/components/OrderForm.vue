@@ -1,72 +1,67 @@
 <template>
-  <div class="container-fluid pb-4" style="max-width: 1200px; min-width: 320px;">
-    <div class="text-center" style="font-size: 100px;">
-      🚚
+  <form @submit.prevent="$emit('submit', values)">
+    <div class="row">
+      <div class="col-lg-4 col-sm-6 form-group">
+        <label for="name">Your name</label>
+        <input
+          type="text"
+          v-model="values.name"
+          class="form-control"
+          id="name"
+          required
+          :disabled="disabled"
+        />
+      </div>
+      <div class="col-lg-4 col-sm-6 form-group">
+        <label for="phone">Phone number</label>
+        <the-mask
+          :mask="['+# (###) ###-##-##', '+## (###) ###-##-##', '+### (###) ###-##-##']"
+          type="tel"
+          v-model="values.phone"
+          name="phone"
+          class="form-control"
+          id="phone"
+          required
+          :disabled="disabled"
+        />
+      </div>
+      <div class="col-lg-4 col-sm-6 form-group">
+        <label for="tariff">Tariff</label>
+        <select v-model="values.tariff" class="form-control" id="tariff" :disabled="disabled">
+          <option v-for="tariff in tariffs" :value="tariff.id">
+            {{ tariff.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-4 col-sm-6 form-group">
+        <label for="start_day">Start day</label>
+        <select v-model="values.start_day" class="form-control" id="start_day" :disabled="disabled">
+          <option v-for="day in (tariff || {}).days" :value="day">
+            {{ day | nameWeekDay }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-8 form-group">
+        <label for="client_address">Delivery address</label>
+        <textarea
+          v-model="values.address"
+          class="form-control"
+          id="client_address"
+          rows="2"
+          required
+          :disabled="disabled"
+        ></textarea>
+      </div>
     </div>
-    <form @submit.prevent="$emit('submit', values)">
-      <div class="row">
-        <div class="col-lg-4 col-sm-6 form-group">
-          <label for="name">Your name</label>
-          <input
-            type="text"
-            v-model="values.name"
-            class="form-control"
-            id="name"
-            required
-            :disabled="disabled"
-          />
-        </div>
-        <div class="col-lg-4 col-sm-6 form-group">
-          <label for="phone">Phone number</label>
-          <the-mask
-            :mask="['+# (###) ###-##-##', '+## (###) ###-##-##', '+### (###) ###-##-##']"
-            type="tel"
-            v-model="values.phone"
-            name="phone"
-            class="form-control"
-            id="phone"
-            required
-            :disabled="disabled"
-          />
-        </div>
-        <div class="col-lg-4 col-sm-6 form-group">
-          <label for="tariff">Tariff</label>
-          <select v-model="values.tariff" class="form-control" id="tariff" :disabled="disabled">
-            <option v-for="tariff in tariffs" :value="tariff.id">
-              {{ tariff.name }}
-            </option>
-          </select>
-        </div>
-        <div class="col-lg-4 col-sm-6 form-group">
-          <label for="start_day">Start day</label>
-          <select v-model="values.start_day" class="form-control" id="start_day" :disabled="disabled">
-            <option v-for="day in (tariff || {}).days" :value="day">
-              {{ day | nameWeekDay }}
-            </option>
-          </select>
-        </div>
-        <div class="col-lg-8 form-group">
-          <label for="client_address">Delivery address</label>
-          <textarea
-            v-model="values.address"
-            class="form-control"
-            id="client_address"
-            rows="2"
-            required
-            :disabled="disabled"
-          ></textarea>
-        </div>
-      </div>
-      <div>
-        <button type="submit" class="btn btn-primary mr-2" :disabled="disabled">
-          Submit the order
-        </button>
-        <span v-if="tariff" class="align-middle">
-          {{ tariff.price }}₽
-        </span>
-      </div>
-    </form>
-  </div>
+    <div>
+      <button type="submit" class="btn btn-primary mr-2" :disabled="disabled">
+        Submit the order
+      </button>
+      <span v-if="tariff" class="align-middle">
+        {{ tariff.price }}₽
+      </span>
+    </div>
+  </form>
 </template>
 
 <script>

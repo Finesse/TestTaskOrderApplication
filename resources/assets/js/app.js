@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import OrderForm from './components/OrderForm';
+import App from './components/App';
 import {post} from 'axios';
 import swal from 'sweetalert';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,8 +11,8 @@ new Vue({
     ...window.orderFormData,
     isSubmitting: false
   },
-  components: {OrderForm},
-  template: '<order-form :tariffs="tariffs" :disabled="isSubmitting" @submit="handleSubmit"/>',
+  components: {App},
+  template: '<app :tariffs="tariffs" :isSubmitting="isSubmitting" @form-submit="handleSubmit"/>',
   methods: {
     // Sends the order data when the form is submitted
     handleSubmit: async function (values) {
