@@ -33,7 +33,7 @@ class Client extends Model
      */
     public function setPhoneAttribute(string $value)
     {
-        $this->arrtibutes['phone'] = preg_replace('/[^0-9]/', '', $value);
+        $this->arrtibutes['phone'] = static::normalizePhone($value);
     }
 
     /**
@@ -44,5 +44,45 @@ class Client extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Converts a phone number to the normal format. Removes everything but digits.
+     */
+    public static function normalizePhone(string $phone): string
+    {
+        return preg_replace('/[^0-9]/', '', $phone);
+    }
+
+    /**
+     * Finds a client by its phone
+     *
+     * @param string $phone The phone number in any form
+     * @return Client|null
+     */
+    public static function findByPhone(string $phone): ?self
+    {
+        return static::where('phone', static::normalizePhone($phone))->first();
+    }
+
+    /**
+     * Gets or creates a client for the given credentials
+     *
+     * @param string $name Client name
+     * @param string $phone Client phone in any form
+     * @return Client
+     */
+    public static function findOrCreate(string $name, string $phone): self
+    {
+        if ($client = static::findByPhone($phone)) {
+            return $client;
+        }
+
+        $client = new static();
+        $client->name = $name;
+        $client->phone = $phone;
+        $client->save();
+
+        return $client;
     }
 }

@@ -21,7 +21,10 @@ All the client-server data transmissions is implemented with AJAX without page r
 
 * «Days» are considered as the days of week (Sunday, Monday, etc.).
 * There are few tariffs so they all can be loaded to the form at once.
-* The separate view layout is not required because there is only one page. 
+* A separate view layout is not required because there is only one page.
+* All the tariffs are publicly available so a simple `exists:tariffs,id` request validation can be used.
+* The business logic is in the controller and not in a separate class because it's simple and doesn't repeat.
+* Automatic tests are not required in the task.
 
 ## How to install
 
