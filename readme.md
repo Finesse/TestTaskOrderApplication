@@ -19,7 +19,9 @@ All the client-server data transmissions is implemented with AJAX without page r
 
 ## Assumptions
 
-«Days» are considered as the days of week (Sunday, Monday, etc.).
+* «Days» are considered as the days of week (Sunday, Monday, etc.).
+* There are few tariffs so they all can be loaded to the form at once.
+* The separate view layout is not required because there is only one page. 
 
 ## How to install
 
@@ -51,3 +53,34 @@ In a production environment, setup a web server to serve the application:
     - `storage`
 2. Make the `public` directory be the document root of the server or a virtual host and make the server redirect all the
     missing file requests to `public/index.php`. More information: https://laravel.com/docs/5.6/installation#web-server-configuration
+3. Cache the stuff by running in a console:
+    ```bash
+    php artisan config:cache
+    php artisan route:cache
+    ```
+
+## How to update
+
+1. Download the fresh version of the source code or execute `git pull` if you installed the code using Git.
+2. Go to the code directory in a terminal and execute:
+    ```bash
+    composer install # Add --no-dev to skip the dependencies not required on production
+    php artisan migrate
+    ```
+3. If you cached the stuff before, update the cache:
+    ```bash
+    php artisan config:cache
+    php artisan route:cache
+    ```
+
+## How to build frontend assets
+
+The frontend assets source code is located in the `resources/assets` directory.
+The compiled assets are located in the `public` directory.
+
+After you made a change in the source code, you need to compile it:
+
+1. Install [Node.js](http://nodejs.org/)
+2. Open the project root directory in a console and execute `npm install` (required only once)
+3. Execute `npm run watch`
+4. Before commiting execute `npm run prod` to have production-ready assets in the repository
