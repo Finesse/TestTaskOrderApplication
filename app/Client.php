@@ -76,8 +76,6 @@ class Client extends Model
      */
     public static function updateOrCreate(string $name, string $phone): self
     {
-        $phone = static::normalizePhone($phone);
-
         return DatabaseMutex::lock('clients/read-and-write', function () use ($phone, $name) {
             $client = static::findByPhone($phone);
 
