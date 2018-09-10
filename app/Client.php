@@ -2,10 +2,10 @@
 
 namespace App;
 
+use App\Helpers\DatabaseMutex;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Client model
@@ -78,7 +78,7 @@ class Client extends Model
     {
         $phone = static::normalizePhone($phone);
 
-        return static::lockTable(function () use ($phone, $name) {
+        return DatabaseMutex::lock('clients/read-and-write', function () use ($phone, $name) {
             $client = static::findByPhone($phone);
 
             if (!$client) {
@@ -91,26 +91,5 @@ class Client extends Model
 
             return $client;
         });
-    }
-
-    /**
-     * Lock the clients table and calls the given function during the lock. Unlocks the table as soon as the function
-     * finishes.
-     *
-     * Warning! Works only with MySQL.
-     *
-     * @param callable $whileLock
-     * @return mixed The value returned by the function
-     */
-    protected static function lockTable(callable $whileLock)
-    {
-        $tableName = DB::getTablePrefix().(new static)->getTable();
-        DB::unprepared("LOCK TABLES `$tableName` WRITE");
-
-        try {
-            return $whileLock();
-        } finally {
-            DB::unprepared("UNLOCK TABLES");
-        }
     }
 }

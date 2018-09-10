@@ -25,13 +25,14 @@ All the client-server data transmissions is implemented with AJAX without page r
 * All the tariffs are publicly available so a simple `exists:tariffs,id` request validation can be used.
 * The business logic is in the controller and not in a separate class because it's simple and doesn't repeat.
 * Automatic tests are not required in the task.
+* The application should run on multiple instances so using a file (or any other single-instance resource) is not an option to prevent race condition.
 
 ## How to install
 
 Requirements:
 
 * PHP ≥ 7.1.3
-* MySQL ≥ 5.5 
+* MySQL ≥ 5.5; PostrgeSQL may suit too but I haven't tested 
 * [Composer](https://getcomposer.org) (only during installation)
 
 Installation:
@@ -87,3 +88,7 @@ After you made a change in the source code, you need to compile it:
 2. Open the project root directory in a console and execute `npm install` (required only once)
 3. Execute `npm run watch`
 4. Before commiting the code, execute `npm run prod` to have production-ready assets in the repository
+
+## Caveats
+
+* Don't add or remove rows from the `locks` table unless you know how they are used.
