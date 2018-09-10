@@ -44,7 +44,7 @@ class OrderController extends Controller
             abort(422, 'The selected start day is not available for the selected tariff');
         }
 
-        // Save the ordre data to the database
+        // Save the order data to the database
         $client = Client::updateOrCreate($request->input('name'), $request->input('phone'));
         $order = new Order();
         $order->client()->associate($client);

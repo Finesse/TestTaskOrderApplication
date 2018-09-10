@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Client model
@@ -67,7 +68,7 @@ class Client extends Model
 
     /**
      * Finds a client by phone and updates his/her credentials. If a client with the given phone doesn't exist, creates
-     * him/her. Saves the changes to the database.
+     * him/her. Saves the changes to the database. Race condition protection is enabled.
      *
      * @param string $name Client name
      * @param string $phone Client phone in any form
@@ -75,16 +76,41 @@ class Client extends Model
      */
     public static function updateOrCreate(string $name, string $phone): self
     {
-        $client = static::findByPhone($phone);
+        $phone = static::normalizePhone($phone);
 
-        if (!$client) {
-            $client = new static();
-            $client->phone = $phone;
+        return static::lockTable(function () use ($phone, $name) {
+            $client = static::findByPhone($phone);
+
+            if (!$client) {
+                $client = new static();
+                $client->phone = $phone;
+            }
+
+            $client->name = $name;
+            $client->save();
+
+            return $client;
+        });
+    }
+
+    /**
+     * Lock the clients table and calls the given function during the lock. Unlocks the table as soon as the function
+     * finishes.
+     *
+     * Warning! Works only with MySQL.
+     *
+     * @param callable $whileLock
+     * @return mixed The value returned by the function
+     */
+    protected static function lockTable(callable $whileLock)
+    {
+        $tableName = DB::getTablePrefix().(new static)->getTable();
+        DB::unprepared("LOCK TABLES `$tableName` WRITE");
+
+        try {
+            return $whileLock();
+        } finally {
+            DB::unprepared("UNLOCK TABLES");
         }
-
-        $client->name = $name;
-        $client->save();
-
-        return $client;
     }
 }

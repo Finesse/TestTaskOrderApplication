@@ -31,7 +31,7 @@ All the client-server data transmissions is implemented with AJAX without page r
 Requirements:
 
 * PHP ≥ 7.1.3
-* MySQL ≥ 5.5; PostrgeSQL may suit too but I haven't tested 
+* MySQL ≥ 5.5 
 * [Composer](https://getcomposer.org) (only during installation)
 
 Installation:
